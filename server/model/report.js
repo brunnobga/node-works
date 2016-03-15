@@ -7,7 +7,7 @@ var reportSchema = new Schema({
   title: { type: String, required: true },
   createDate: { type: Date, default: Date.now },
   status: String,
-  expenses: [ { type: Schema.Types.ObjectId, ref: Expense.schemaName } ]
+  expenses: [ Expense ]
 });
 
 reportSchema.statics.schemaName = schemaName;

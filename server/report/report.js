@@ -1,14 +1,16 @@
-var express = require("express");
+var router = require("express").Router();
 var Report = require(__base('model/report'))
-var router = express.Router();
+var expenseRouter = require(__base('report/expense'));
+
+router.use('/:_id/expense', expenseRouter);
 
 router.get('/', function(req, res) {
     Report.find({}, function (err, docs) {
-        var result = [];
-        for (var i = 0; i < docs.length; i++) {
-            result.push(docs[i]);
+        if(err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(docs);
         }
-        res.status(200).send(result);
     });
 });
 
@@ -44,7 +46,7 @@ router.post('/', function (req, res) {
     }
 });
 
-router.patch('/:_id', function (req, res) {
+router.put('/:_id', function (req, res) {
 
 });
 
@@ -64,9 +66,5 @@ router.delete('/:_id', function (req, res) {
         res.status(400).send('No _id was provided');
     }
 });
-
-// router.post('/:_id/expense', function (req, res) {
-//
-// });
 
 module.exports = router;
