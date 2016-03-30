@@ -1,5 +1,5 @@
 var router = require("express").Router();
-var Report = require(__base('model/report'))
+var Report = require(__base('model/report'));
 var expenseRouter = require(__base('report/expense'));
 
 router.use('/:_id/expense', expenseRouter);
@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
 
 router.get('/:_id', function(req, res) {
     var _id = req.params._id;
+
     if(_id) {
         Report.findById(_id, function (err, doc) {
             if(err) {
@@ -52,6 +53,7 @@ router.put('/:_id', function (req, res) {
 
 router.delete('/:_id', function (req, res) {
     var _id = req.params._id;
+
     if(_id) {
         Report.findByIdAndRemove(_id, function (err, doc) {
             if(err) {

@@ -3,6 +3,7 @@ var Report = require(__base('model/report'));
 
 router.get('/', function(req, res) {
     var reportId = req.params._id;
+
     Report.findById(reportId, function(err, report) {
         if(err) {
             res.status(500).send(err);
@@ -16,6 +17,7 @@ router.get('/', function(req, res) {
 
 router.get('/:expenseId', function(req, res) {
     var reportId = req.params._id;
+
     Report.findById(reportId, function(err, report) {
         if(err) {
             res.status(500).send(err);
@@ -34,6 +36,7 @@ router.get('/:expenseId', function(req, res) {
 
 router.post('/', function(req, res) {
     var reportId = req.params._id;
+
     Report.findById(reportId, function(err, report) {
         if(err) {
             res.status(500).send(err);
@@ -50,6 +53,34 @@ router.post('/', function(req, res) {
                         .expenses[savedReport.expenses.length - 1]);
                 }
             });
+        }
+    });
+});
+
+router.delete('/:expenseId', function(req, res) {
+    var reportId = req.params._id;
+
+    Report.findById(reportId, function(err, report) {
+        if(err) {
+            res.status(500).send(err);
+        } else if(!report) {
+            res.status(404).end();
+        } else {
+            var expenseId = req.params.expenseId;
+
+            if(expenseId < 0 || expenseId >= report.expenses.length) {
+                res.status(400)
+                        .send("expenseId must be greater than zero and lesser than the number of existing expenses in the report.")
+            } else {
+                report.expenses.splice(expenseId, 1);
+                report.save(function(err) {
+                    if(err) {
+                        res.status(500).send(err);
+                    } else {
+                        res.status(204).end();
+                    }
+                });
+            }
         }
     });
 });

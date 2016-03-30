@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var schemaName = 'Receipt';
 var receiptSchema = new Schema({
   date: { type: Date, required: true },
-  filename: String
+  filename: String,
+  data: Buffer
 });
 
 receiptSchema.statics.schemaName = schemaName;
